@@ -1,0 +1,1474 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>7a0 · Streamers Edition</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  color-scheme: dark;
+  --bg: #0b0e14;
+  --bg-secondary: #121721;
+  --card: #18202e;
+  --card-hover: #212c3f;
+  --line: #2a374e;
+  --tx: #f0f4fc;
+  --mut: #8e9bb0;
+  --ac: #00e676; /* Verde Neón 7a0 */
+  --ac-glow: rgba(0, 230, 118, 0.25);
+  --accent-purple: #7c4dff;
+  --gold: #ffd700;
+  --danger: #ff5252;
+  --radius: 14px;
+}
+
+[data-theme=light] {
+  color-scheme: light;
+  --bg: #f4f7fc;
+  --bg-secondary: #e9eff8;
+  --card: #ffffff;
+  --card-hover: #f0f4fb;
+  --line: #d1dbec;
+  --tx: #0f172a;
+  --mut: #64748b;
+  --ac: #00b050;
+  --ac-glow: rgba(0, 176, 80, 0.2);
+  --accent-purple: #6200ea;
+  --gold: #d4af37;
+  --danger: #d32f2f;
+}
+
+[data-theme=night] {
+  --bg: #050f0a;
+  --bg-secondary: #0a1c13;
+  --card: #0f2b1d;
+  --card-hover: #163a28;
+  --line: #1c4d34;
+  --tx: #e6fffa;
+  --mut: #5ba98b;
+  --ac: #00ff88;
+  --ac-glow: rgba(0, 255, 136, 0.3);
+  --accent-purple: #00b0ff;
+  --gold: #ffc107;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--tx);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.w {
+  width: 100%;
+  max-width: 620px;
+  margin: 0 auto;
+  padding: 20px 16px;
+}
+
+.hide { display: none !important; }
+
+/* BRANDING & HEADER */
+.brand {
+  text-align: center;
+  margin: 16px 0 20px;
+}
+.brand-logo {
+  font-size: 42px;
+  font-weight: 900;
+  letter-spacing: -1px;
+  margin: 0;
+  line-height: 1;
+  text-transform: uppercase;
+}
+.brand-logo span.highlight {
+  color: var(--ac);
+  text-shadow: 0 0 20px var(--ac-glow);
+}
+.brand-badge {
+  display: inline-block;
+  background: rgba(124, 77, 255, 0.15);
+  color: var(--accent-purple);
+  border: 1px solid var(--accent-purple);
+  font-size: 11px;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 6px;
+}
+.sub {
+  text-align: center;
+  color: var(--mut);
+  font-size: 14px;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+/* BUTTON SYSTEM */
+button { font-family: inherit; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+.big {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 16px;
+  margin: 10px 0;
+  border: 0;
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, var(--ac), #00b050);
+  color: #050f0a;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 4px 20px var(--ac-glow);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.big:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px var(--ac-glow);
+  filter: brightness(1.08);
+}
+.big:active { transform: translateY(0); }
+.big:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; filter: none; }
+
+.big.sec {
+  background: var(--card);
+  color: var(--tx);
+  border: 1.5px solid var(--line);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+.big.sec:hover {
+  background: var(--card-hover);
+  border-color: var(--mut);
+}
+
+.big.warn {
+  background: rgba(255, 82, 82, 0.15);
+  color: var(--danger);
+  border: 1.5px solid var(--danger);
+  box-shadow: none;
+}
+.big.warn:hover {
+  background: rgba(255, 82, 82, 0.25);
+}
+
+.opt {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 14px 18px;
+  margin: 8px 0;
+  border-radius: var(--radius);
+  border: 1.5px solid var(--line);
+  background: var(--card);
+  color: var(--tx);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.opt:hover { border-color: var(--mut); background: var(--card-hover); }
+.opt.on { border-color: var(--ac); background: rgba(0, 230, 118, 0.08); color: var(--ac); }
+
+.fms {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+  justify-content: center;
+}
+.fm {
+  padding: 8px 16px;
+  border-radius: 30px;
+  border: 1.5px solid var(--line);
+  background: var(--card);
+  color: var(--tx);
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 13px;
+}
+.fm.on {
+  border-color: var(--ac);
+  background: var(--ac);
+  color: #000;
+  box-shadow: 0 0 12px var(--ac-glow);
+}
+
+/* CANCHA TÁCTICA */
+.pitch {
+  position: relative;
+  height: 380px;
+  border-radius: 18px;
+  background: radial-gradient(circle at center, #184e28 0%, #0d3018 100%);
+  border: 2.5px solid rgba(255,255,255,0.15);
+  overflow: hidden;
+  box-shadow: inset 0 0 40px rgba(0,0,0,0.6), 0 10px 30px rgba(0,0,0,0.5);
+  margin-bottom: 16px;
+}
+.pitch::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: repeating-linear-gradient(0deg, transparent 0 40px, rgba(0,0,0,0.1) 40px 80px);
+  pointer-events: none;
+}
+.pitch-line-center {
+  position: absolute;
+  top: 50%; left: 0; right: 0;
+  border-top: 2px solid rgba(255,255,255,0.25);
+}
+.pitch-circle {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90px; height: 90px;
+  border: 2px solid rgba(255,255,255,0.25);
+  border-radius: 50%;
+}
+.pitch-area-top {
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 160px; height: 60px;
+  border: 2px solid rgba(255,255,255,0.2);
+  border-top: 0;
+}
+.pitch-area-bottom {
+  position: absolute;
+  bottom: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 160px; height: 60px;
+  border: 2px solid rgba(255,255,255,0.2);
+  border-bottom: 0;
+}
+
+.slot {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 76px;
+  height: 54px;
+  border: 2px dashed rgba(255,255,255,0.4);
+  border-radius: 12px;
+  background: rgba(0,0,0,0.45);
+  backdrop-filter: blur(4px);
+  color: #fff;
+  font-size: 11px;
+  text-align: center;
+  padding: 4px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+.slot.on {
+  border-style: solid;
+  border-color: var(--ac);
+  background: rgba(0, 230, 118, 0.25);
+  cursor: pointer;
+  animation: pulseSlot 1.2s infinite alternate;
+}
+.slot.full {
+  border-style: solid;
+  border-color: rgba(255,255,255,0.3);
+  background: rgba(15, 23, 42, 0.9);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+.slot .v {
+  font-size: 15px;
+  font-weight: 900;
+  color: var(--ac);
+}
+.slot .p-name {
+  font-weight: 700;
+  font-size: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 68px;
+}
+@keyframes pulseSlot {
+  0% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0px var(--ac); }
+  100% { transform: translate(-50%, -50%) scale(1.06); box-shadow: 0 0 15px var(--ac); }
+}
+
+/* PANELS & CARDS */
+.panel {
+  background: var(--card);
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius);
+  padding: 18px;
+  margin-top: 14px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+.rnd {
+  display: flex;
+  justify-content: space-between;
+  color: var(--mut);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.cat {
+  font-size: 20px;
+  text-align: center;
+  margin: 14px 0;
+  font-weight: 800;
+  min-height: 32px;
+  color: var(--tx);
+}
+.cat.spin { color: var(--ac); }
+
+.pl {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  margin: 8px 0;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1.5px solid var(--line);
+  background: var(--bg-secondary);
+  color: var(--tx);
+  font-size: 15px;
+  cursor: pointer;
+  text-align: left;
+}
+.pl:hover:not(:disabled) { border-color: var(--ac); background: var(--card-hover); }
+.pl.sel { border-color: var(--ac); background: rgba(0, 230, 118, 0.12); }
+.pl:disabled { opacity: 0.35; cursor: not-allowed; }
+.pl .n { flex: 1; font-weight: 700; }
+.pos {
+  font-size: 11px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: var(--line);
+  color: var(--mut);
+}
+.val {
+  font-weight: 900;
+  font-size: 18px;
+  min-width: 32px;
+  text-align: right;
+  color: var(--ac);
+}
+.hint {
+  text-align: center;
+  color: var(--mut);
+  font-size: 13px;
+  margin: 10px 0 0;
+  font-weight: 500;
+}
+
+/* BRACKET TREE / ARBOL DE PLAYOFFS */
+.bracket-wrapper {
+  overflow-x: auto;
+  padding: 10px 0;
+  margin: 10px 0;
+}
+.bracket-tree {
+  display: flex;
+  gap: 16px;
+  min-width: 500px;
+}
+.bracket-round {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  min-width: 140px;
+}
+.bracket-round-title {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--mut);
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 8px;
+  letter-spacing: 0.5px;
+}
+.match-card {
+  background: var(--bg-secondary);
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  padding: 8px 10px;
+  margin: 6px 0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.match-card:hover {
+  border-color: var(--ac);
+  transform: scale(1.02);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+.match-card.is-me {
+  border-left: 3px solid var(--ac);
+}
+.match-team {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  padding: 2px 0;
+  color: var(--mut);
+}
+.match-team.winner {
+  color: var(--tx);
+  font-weight: 800;
+}
+.match-team.winner .score-num {
+  color: var(--ac);
+}
+
+/* FICHA DEL ENTRENADOR */
+.coach-card {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin: 14px 0;
+}
+.stat-box {
+  background: var(--bg-secondary);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+}
+.stat-box .title { font-size: 10px; color: var(--mut); font-weight: 700; text-transform: uppercase; }
+.stat-box .num { font-size: 20px; font-weight: 900; color: var(--ac); margin-top: 4px; }
+
+/* MODAL DE ESTADÍSTICAS DEL MATCH */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(5px);
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+}
+.modal-content {
+  background: var(--card);
+  border: 1.5px solid var(--line);
+  border-radius: 18px;
+  width: 100%;
+  max-width: 480px;
+  padding: 20px;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+}
+
+/* FIXTURE & LOGS */
+.fx {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+  font-size: 13px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+.fx:last-child { border-bottom: 0; }
+.fx.me {
+  background: rgba(0, 230, 118, 0.06);
+  border-left: 3px solid var(--ac);
+  font-weight: 700;
+}
+.log {
+  min-height: 80px;
+  max-height: 200px;
+  overflow-y: auto;
+  font-size: 13px;
+  padding: 6px;
+}
+.log div { padding: 6px 0; border-bottom: 1px solid var(--line); }
+.score {
+  font-size: 28px;
+  font-weight: 900;
+  text-align: center;
+  margin: 10px 0;
+  color: var(--ac);
+}
+
+.back {
+  background: none;
+  border: 0;
+  color: var(--mut);
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 6px 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.back:hover { color: var(--tx); }
+
+.row { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0 16px; }
+.row .fm { flex: 1; text-align: center; }
+
+label { display: block; font-size: 12px; font-weight: 700; color: var(--mut); margin: 14px 0 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+input {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1.5px solid var(--line);
+  background: var(--bg-secondary);
+  color: var(--tx);
+  font-size: 16px;
+  font-weight: 600;
+  outline: none;
+}
+input:focus { border-color: var(--ac); }
+
+.code {
+  font-size: 32px;
+  font-weight: 900;
+  letter-spacing: 8px;
+  text-align: center;
+  color: var(--ac);
+  background: var(--bg-secondary);
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px dashed var(--ac);
+  margin: 10px 0;
+}
+</style>
+</head>
+<body>
+
+<div class="w">
+
+ <!-- MENÚ PRINCIPAL -->
+ <div id="menu">
+  <div class="brand">
+   <h1 class="brand-logo">7<span class="highlight">A</span>0</h1>
+   <div class="brand-badge">Streamers Edition</div>
+  </div>
+  <div class="sub">Armá tu plantilla de 7 estrellas y dominá el torneo</div>
+  
+  <div style="display:flex; justify-content:center; gap:8px; margin-bottom:16px;">
+    <button class="fm on" id="mode-classic-btn" onclick="setDifficulty('classic')">Modo Clásico 📊</button>
+    <button class="fm" id="mode-almanac-btn" onclick="setDifficulty('almanac')">De Almanaque 🧠</button>
+  </div>
+
+  <button class="big" onclick="toSetup('solo')">⚡ JUGAR SOLITARIO</button>
+  <button class="big sec" onclick="showRoomCreateCfg()">🏆 TORNEO COMPETITIVO MULTIJUGADOR</button>
+  <button class="big sec" onclick="show('cfg')">⚙️ CONFIGURACIÓN</button>
+  
+  <div class="panel">
+   <label style="margin-top:0">¿Tienes un código de sala?</label>
+   <input id="jc" placeholder="Ingresa el código (Ej: X7A0P)" maxlength="10">
+   <button class="big sec" style="margin-top:10px;" onclick="joinOnlineRoom()">UNIRSE A LA SALA</button>
+  </div>
+ </div>
+
+ <!-- CONFIGURACIÓN DE CREACIÓN DE SALA (ESTILO 7A0 ORIGINAL) -->
+ <div id="room-create-cfg" class="hide">
+  <button class="back" onclick="show('menu')">← Volver al Menú</button>
+  <h1 style="font-size:26px; margin-top:10px;">🏆 Crear Sala de Torneo</h1>
+  <div class="sub">Configura el cuadro y formato de la competencia</div>
+  
+  <label>Cantidad de Participantes</label>
+  <div class="row" id="room-sz-row">
+    <button class="fm" onclick="setRoomSize(4)">4</button>
+    <button class="fm on" onclick="setRoomSize(8)">8</button>
+    <button class="fm" onclick="setRoomSize(16)">16</button>
+    <button class="fm" onclick="setRoomSize(32)">32</button>
+  </div>
+
+  <label>Formato / Dificultad</label>
+  <div class="row" id="room-fmt-row">
+    <button class="fm on" onclick="setRoomDifficulty('classic')">📊 Clásico</button>
+    <button class="fm" onclick="setRoomDifficulty('almanac')">🧠 De Almanaque</button>
+  </div>
+
+  <label>Duración por Partido</label>
+  <div class="row" id="room-dur-row">
+    <button class="fm" onclick="setRoomDur(30)">30s</button>
+    <button class="fm on" onclick="setRoomDur(60)">60s</button>
+    <button class="fm" onclick="setRoomDur(90)">90s</button>
+  </div>
+
+  <button class="big" style="margin-top:20px" onclick="createRoomDirect()">CREAR SALA Y IR AL LOBBY</button>
+ </div>
+
+ <!-- CONFIGURACIÓN -->
+ <div id="cfg" class="hide">
+  <button class="back" onclick="show('menu')">← Volver al Menú</button>
+  <h1>⚙️ Configuración</h1>
+  <div class="sub">Personaliza tu experiencia táctica y visual</div>
+  
+  <label>Modo de Dificultad</label>
+  <button class="opt on" id="cfg-dif-classic" onclick="setDifficulty('classic')">📊 Modo Clásico (Con valoraciones visibles) <span>✓</span></button>
+  <button class="opt" id="cfg-dif-almanac" onclick="setDifficulty('almanac')">🧠 De Almanaque (Medias ocultas) <span></span></button>
+
+  <label style="margin-top:16px;">Tema Visual</label>
+  <button class="opt on" data-t="dark" onclick="theme('dark')">🌙 Modo Oscuro (Oficial 7a0) <span>✓</span></button>
+  <button class="opt" data-t="light" onclick="theme('light')">☀️ Modo Claro <span></span></button>
+  <button class="opt" data-t="night" onclick="theme('night')">🟢 Modo Cancha Neón <span></span></button>
+
+  <div class="panel" style="font-size:13px; color:var(--mut); line-height:1.5; margin-top:20px;">
+   Desarrollo colaborativo para la comunidad.<br>
+   Edición Oficial 7a0 Streamers.
+  </div>
+ </div>
+
+ <!-- SETUP / CLUB CONFIG (Solo para Solitario) -->
+ <div id="setup" class="hide">
+  <button class="back" onclick="show('menu')">← Volver</button>
+  <h1 style="font-size:26px; margin-top:10px;">Configura tu Club</h1>
+  <div class="sub">Ingresa los datos de tu equipo</div>
+  
+  <div id="sn"><label>Tu Nombre / Alias</label><input id="in_n" maxlength="18" placeholder="Ej: Spreen"></div>
+  <label>Nombre del Club</label><input id="in_c" maxlength="22" placeholder="Ej: Rayo de Cuyo FC">
+  
+  <button class="big" style="margin-top:20px" onclick="setupGo()">CONTINUAR A LA SELECCIÓN</button>
+ </div>
+
+ <!-- LOBBY MULTIJUGADOR ESTILO 7A0 ORIGINAL -->
+ <div id="lobby" class="hide">
+  <button class="back" onclick="leave()">← Salir de la sala</button>
+  <h1 style="font-size:26px; margin-top:10px;">Sala de Espera</h1>
+  <div class="sub" id="lobby-sub">Cuadro de 8 participantes · Modo Clásico</div>
+  
+  <div class="code" id="lc">------</div>
+  <button class="big sec" onclick="copyLink()">📋 COPIAR CÓDIGO DE SALA</button>
+
+  <!-- PANEL DE EDICIÓN DE PERFIL EN EL LOBBY -->
+  <div class="panel" style="margin-bottom: 12px;">
+    <label style="margin-top:0;">Tus Datos en la Sala</label>
+    <div style="display:flex; gap:8px; margin-bottom:8px;">
+      <input id="lobby_in_n" maxlength="18" placeholder="Tu Nombre / Alias" oninput="updateLobbyProfile()">
+      <input id="lobby_in_c" maxlength="22" placeholder="Nombre de tu Club" oninput="updateLobbyProfile()">
+    </div>
+  </div>
+  
+  <div class="panel">
+   <div id="lp"></div>
+  </div>
+  
+  <p class="hint" id="lh">Lugares vacíos se completarán automáticamente con BOTS (BOT 1, BOT 2...).</p>
+  <div id="lb" style="margin-top:14px;"></div>
+ </div>
+
+ <!-- DRAFT / PITCH GAME -->
+ <div id="game" class="hide">
+  <div style="display:flex; justify-content:space-between; align-items:center;">
+   <button class="back" onclick="leave()">← Menú</button>
+   <span style="font-size:11px; font-weight:800; color:var(--ac); background:rgba(0,230,118,0.1); padding:4px 8px; border-radius:12px;" id="mode-tag">MODO CLÁSICO</span>
+  </div>
+  
+  <div class="fms" id="fms" style="margin-top:10px;"></div>
+  
+  <!-- CANCHA 7A0 -->
+  <div class="pitch" id="pitch">
+   <div class="pitch-area-top"></div>
+   <div class="pitch-circle"></div>
+   <div class="pitch-line-center"></div>
+   <div class="pitch-area-bottom"></div>
+  </div>
+  
+  <div class="panel">
+   <div class="rnd"><span id="rn">Ronda 0/7</span><span id="sum">Total: 0</span></div>
+   <div class="cat" id="cat">¿Preparado?</div>
+   <div id="body"></div>
+   
+   <!-- BOTÓN SALTAR CATEGORÍA -->
+   <button class="big warn hide" id="btn-skip" onclick="skipCategory()">
+     ⏭️ SALTAR CATEGORÍA (<span id="skip-count">3</span> RESTANTES)
+   </button>
+   
+   <p class="hint" id="hint"></p>
+  </div>
+ </div>
+
+ <!-- FICHA INFORME DEL ENTRENADOR (PRE-TORNEO) -->
+ <div id="coach-report" class="hide">
+  <h1 style="font-size:24px; text-align:center; margin-top:10px;">📋 Ficha del Entrenador</h1>
+  <div class="sub">Informe táctico antes de entrar al campeonato</div>
+
+  <div class="panel">
+    <div style="text-align:center; font-weight:800; font-size:18px; color:var(--ac);" id="coach-club-name">Mi Club</div>
+    
+    <div class="coach-card">
+      <div class="stat-box">
+        <div class="title">Media Gral.</div>
+        <div class="num" id="stat-avg">0</div>
+      </div>
+      <div class="stat-box">
+        <div class="title">Defensa</div>
+        <div class="num" id="stat-def">0</div>
+      </div>
+      <div class="stat-box">
+        <div class="title">Ataque</div>
+        <div class="num" id="stat-atk">0</div>
+      </div>
+    </div>
+
+    <div style="font-size:13px; color:var(--mut); line-height:1.6;" id="coach-details"></div>
+  </div>
+
+  <button class="big" style="margin-top:16px;" onclick="startTournamentAfterReport()">ENTRAR AL TORNEO 🏆</button>
+ </div>
+
+ <!-- TORNEO Y PLAYOFF BRACKET TREE -->
+ <div id="tour" class="hide">
+  <h1 id="rt" style="font-size:24px; margin-top:10px; text-align:center;"></h1>
+  
+  <div class="panel" id="live">
+   <div class="score" id="sc">0 - 0</div>
+   <div class="log" id="log"></div>
+  </div>
+
+  <div id="bracket-container" class="hide">
+    <label>Cuadro del Torneo (Haz clic en un partido para ver detalles)</label>
+    <div class="bracket-wrapper">
+      <div class="bracket-tree" id="bracket-tree"></div>
+    </div>
+  </div>
+
+  <div id="tb" style="margin-top:14px;"></div>
+ </div>
+
+ <!-- MODAL DE ESTADÍSTICAS DEL PARTIDO -->
+ <div id="modal-match" class="modal-overlay hide">
+  <div class="modal-content">
+    <button class="back" style="float:right;" onclick="closeMatchModal()">✕ Cerrar</button>
+    <h3 id="modal-title" style="margin-top:0;">Detalles del Partido</h3>
+    <div class="score" id="modal-score">0 - 0</div>
+    <div class="log" id="modal-log"></div>
+  </div>
+ </div>
+
+</div>
+
+<script>
+// BASE DE DATOS DE CATEGORÍAS Y STREAMERS
+const C = [
+  ["Gaming & Variedad 🎮", [["Spreen","ED",90],["Coscu","MCO",88],["Robleis","DC",87],["Brunenger","EI",84],["Carrera","MC",83]]],
+  ["Minecraft & Survival ⛏️", [["Farfadox","DC",85],["Pimpeano","MC",80],["Nilsor","DFC",75],["Agustin51","ED",82],["ElRichMC","MCO",88]]],
+  ["Fútbol & Reacciones ⚽", [["Davoo Xeneize","MCO",89],["La Cobra","DC",88],["Momo","DFC",86],["Coker","EI",84],["Vector","MC",78]]],
+  ["IRL & Eventos 🌎", [["Markito Navaja","ED",85],["Milica","EI",83],["Agusneta","MCO",84],["Goncho","MC",86],["Santutu","DC",80]]],
+  ["Humor & StandUp 😂", [["Luquitas Rodríguez","MCO",88],["Martín Cirio","ED",85],["Julián Serrano","EI",83],["El Demente","DC",82],["Lucas Castel","MC",81]]],
+  ["Charlas & Podcasts 🎙️", [["Nicolás Occhiato","MCO",89],["Migue Granados","MC",88],["Tomás Rebord","MCD",84],["Frankkaster","DFC",82],["Rober Galati","ED",79]]],
+  ["Gaming Competitivo 🏆", [["Goncho","MC",86],["Zeko","DFC",81],["Duende Pablo","LD",82],["Joaco","MCD",77],["Luken","POR",85]]],
+  ["Fortnite & Shooter 🎯", [["Duende Pablo","ED",82],["Agusbob","EI",76],["Rivotr1l","DC",78],["Facu Banzas","MC",75],["Nano","DFC",74]]],
+  ["Música & Streaming 🎵", [["Lit Killah","ED",88],["Duki","DC",90],["Tiago PZK","EI",87],["Luck Ra","MCO",85],["FMK","MC",83]]],
+  ["Creadores de YouTube 📹", [["Alejo Igoa","DC",88],["Ian Lucas","ED",85],["Mati Spano","EI",83],["PedritoVM","MC",81],["Benja Calero","MCO",80]]],
+  ["Lifestyle & Vlogs 🌟", [["Mica Suárez","EI",84],["Kevsho","MCO",83],["Lyna","DC",85],["Franco Ceres","MC",80],["Tuli Acosta","EI",81]]],
+  ["Haxball & Clásicos 🔵⚪", [["EspnHaxball","DFC",90],["Becken82","MC",89],["Czerro","DC",95],["MaldiniNT","DFC",88],["ChinoCity","POR",85]]]
+];
+
+const REAL_CLUBS = ["Boca Juniors","River Plate","Racing Club","Independiente","San Lorenzo","Estudiantes","Vélez Sarsfield","Real Madrid","FC Barcelona","Manchester City","Liverpool","Bayern Múnich","PSG","Juventus","Flamengo","Palmeiras"];
+
+const $ = id => document.getElementById(id);
+const R = n => Math.floor(Math.random() * n);
+const shuf = a => a.map(x => [Math.random(), x]).sort((p, q) => p[0] - q[0]).map(x => x[1]);
+
+const G = { POR:"POR", DFC:"DEF", LI:"DEF", LD:"DEF", MCD:"MED", MC:"MED", MCO:"MED", EI:"EXT", ED:"EXT", DC:"DEL" };
+const NM = { POR:"Arquero", DEF:"Defensa", MED:"Medio", EXT:"Extremo", DEL:"Delantero" };
+const FM = ["3-2-1", "2-3-1", "3-1-2", "2-2-2", "1-3-2", "2-1-3"];
+const PEN = 10;
+
+let fm = "3-2-1";
+let SL = [];
+let team = [];
+let used = [];
+let round = 0;
+let sel = null;
+let busy = false;
+let MODE = "solo";
+let DIFFICULTY = "classic"; // classic | almanac
+let SKIPS = 3;
+let currentPickCategory = null;
+
+let ROOM_SIZE = 8;
+let ROOM_DUR = 60;
+let ROOM_DIFFICULTY = "classic";
+
+let ME = { name: "Jugador 1", club: "Mi Club FC" };
+let lobbyPlayers = [];
+let CODE = null;
+let myCompiledTeam = null;
+let tourRounds = [];
+let liveInterval = null;
+let IS_HOST = false;
+
+function show(id) {
+  ["menu","cfg","room-create-cfg","setup","lobby","game","coach-report","tour"].forEach(x => $(x).classList.toggle("hide", x !== id));
+}
+
+function showRoomCreateCfg() {
+  show("room-create-cfg");
+}
+
+function setRoomSize(sz) {
+  ROOM_SIZE = sz;
+  document.querySelectorAll("#room-sz-row .fm").forEach(b => {
+    b.classList.toggle("on", parseInt(b.textContent) === sz);
+  });
+}
+
+function setRoomDifficulty(d) {
+  ROOM_DIFFICULTY = d;
+  document.querySelectorAll("#room-fmt-row .fm").forEach(b => {
+    const isClassic = b.textContent.includes("Clásico");
+    b.classList.toggle("on", (d === "classic" && isClassic) || (d === "almanac" && !isClassic));
+  });
+}
+
+function setRoomDur(dur) {
+  ROOM_DUR = dur;
+  document.querySelectorAll("#room-dur-row .fm").forEach(b => {
+    b.classList.toggle("on", parseInt(b.textContent) === dur);
+  });
+}
+
+let DB=null,UID=null,LUNS=[],LHB=null,LT=null,DRAFTED=false;
+async function lobbyDb(){
+  if(DB)return true;
+  try{const u=await claude.use("user"),d=await claude.use("db");if(!u||!d)return false;DB=d;UID=await u.id();return true}catch(e){return false}
+}
+const PPATH=()=>"rooms/"+CODE+"/players/"+UID;
+function lobbyConnect(){
+  LUNS.forEach(f=>f());LUNS=[];DRAFTED=false;
+  LUNS.push(DB.collection("rooms/"+CODE+"/players").onSnapshot(sn=>{
+    const now=Date.now();
+    lobbyPlayers=sn.docs.map(d=>d.data()).filter(p=>now-(p.ts||0)<30000)
+      .sort((x,y)=>(y.isHost?1:0)-(x.isHost?1:0)||(x.joined||0)-(y.joined||0))
+      .map(p=>({id:p.uid,name:p.name,club:p.club,isHost:!!p.isHost,ready:true}));
+    renderLobby();
+  }));
+  LUNS.push(DB.doc("rooms/"+CODE).onSnapshot(sn=>{
+    const r=sn.data();if(!r)return;
+    if(r.status==="draft"&&!IS_HOST&&!DRAFTED&&!$("lobby").classList.contains("hide")){DRAFTED=true;newGame()}
+  }));
+  clearInterval(LHB);
+  LHB=setInterval(()=>{if(DB&&CODE)DB.doc(PPATH()).update({ts:Date.now()}).catch(()=>{})},8000);
+}
+function lobbyPush(){
+  if(!DB||!CODE)return;
+  clearTimeout(LT);
+  LT=setTimeout(()=>DB.doc(PPATH()).update({name:ME.name,club:ME.club,ts:Date.now()}).catch(()=>{}),250);
+}
+async function createRoomDirect() {
+  MODE = "online_create";
+  IS_HOST = true;
+  CODE = Math.random().toString(36).substring(2, 7).toUpperCase();
+  setDifficulty(ROOM_DIFFICULTY);
+  ME.name = "Jugador 1";
+  ME.club = "Mi Club FC";
+  $("lobby_in_n").value = ME.name;
+  $("lobby_in_c").value = ME.club;
+  lobbyPlayers = [{ id: "p1", name: ME.name, club: ME.club, isHost: true, ready: true }];
+  renderLobby();
+  show("lobby");
+  if(await lobbyDb()){
+    try{
+      await DB.doc("rooms/"+CODE).set({status:"lobby",size:ROOM_SIZE,dur:ROOM_DUR,diff:ROOM_DIFFICULTY,host:UID});
+      await DB.doc(PPATH()).set({uid:UID,name:ME.name,club:ME.club,isHost:true,joined:Date.now(),ts:Date.now()});
+      lobbyConnect();
+    }catch(e){alert("No se pudo crear la sala online.")}
+  }else alert("No se pudo conectar: abrí la página con sesión de claude.ai para jugar online.");
+}
+
+async function joinOnlineRoom() {
+  const val = $("jc").value.trim().toUpperCase().replace(/^.*SALA-/,"");
+  if(!val) return alert("Ingresa un código válido de sala.");
+  if(!await lobbyDb()) return alert("No se pudo conectar: abrí la página con sesión de claude.ai para jugar online.");
+  let r;
+  try{const sn=await DB.doc("rooms/"+val).get();if(!sn.exists)return alert("No existe esa sala.");r=sn.data()}catch(e){return alert("No se pudo entrar a la sala.")}
+  CODE = val;
+  MODE = "online_join";
+  IS_HOST = false;
+  ROOM_SIZE=r.size||8;ROOM_DUR=r.dur||60;ROOM_DIFFICULTY=r.diff||"classic";setDifficulty(ROOM_DIFFICULTY);
+  ME.name = "Jugador " + (Math.floor(Math.random() * 80) + 2);
+  ME.club = "Rival FC";
+  $("lobby_in_n").value = ME.name;
+  $("lobby_in_c").value = ME.club;
+  lobbyPlayers = [{ id: UID, name: ME.name, club: ME.club, isHost: false, ready: true }];
+  renderLobby();
+  show("lobby");
+  try{await DB.doc(PPATH()).set({uid:UID,name:ME.name,club:ME.club,isHost:false,joined:Date.now(),ts:Date.now()})}catch(e){}
+  lobbyConnect();
+}
+
+function updateLobbyProfile() {
+  ME.name = $("lobby_in_n").value.trim() || (IS_HOST ? "Jugador 1" : "Jugador 2");
+  ME.club = $("lobby_in_c").value.trim() || "Mi Club FC";
+  const myP = lobbyPlayers.find(p => DB ? p.id === UID : (IS_HOST ? p.isHost : !p.isHost));
+  if (myP) { myP.name = ME.name; myP.club = ME.club; }
+  renderLobby();
+  lobbyPush();
+}
+
+function renderLobby() {
+  $("lc").textContent = CODE;
+  $("lobby-sub").textContent = `Cuadro de ${ROOM_SIZE} participantes · ${ROOM_DIFFICULTY === 'classic' ? 'Modo Clásico' : 'De Almanaque'}`;
+  
+  let html = "";
+  lobbyPlayers.forEach((p, idx) => {
+    html += `
+      <div class="fx">
+        <span><b>${p.club}</b> (${p.name}) ${p.isHost ? '<small style="color:var(--accent-purple); font-weight:800;">[HOST]</small>' : ''}</span>
+        <span style="color:var(--ac); font-weight:800;">✓ Listo</span>
+      </div>
+    `;
+  });
+  
+  const totalInLobby = lobbyPlayers.length;
+  const botSlotsNeeded = ROOM_SIZE - totalInLobby;
+  
+  for (let i = 1; i <= Math.min(botSlotsNeeded, 3); i++) {
+    html += `
+      <div class="fx" style="opacity:0.6;">
+        <span><b>BOT ${i}</b> (CPU)</span>
+        <span style="color:var(--mut);">Lugar libre</span>
+      </div>
+    `;
+  }
+  if (botSlotsNeeded > 3) {
+    html += `<div class="fx" style="opacity:0.5; font-size:11px;"><span>... y ${botSlotsNeeded - 3} BOTS más al iniciar</span></div>`;
+  }
+  
+  $("lp").innerHTML = html;
+  
+  $("lh").textContent = `${totalInLobby}/${ROOM_SIZE} Jugadores listos. El resto (${botSlotsNeeded}) se rellenará con BOTS al presionar Iniciar.`;
+  
+  const canStart = totalInLobby >= 1; // Habilitado para iniciar en cualquier momento con BOTS
+  if (IS_HOST) {
+    $("lb").innerHTML = `
+      <button class="big" style="background:linear-gradient(135deg, var(--ac), #00b050);" onclick="startOnlineDraftAll()">
+        🚀 INICIAR DRAFT DE CLUBES (${totalInLobby}/${ROOM_SIZE})
+      </button>
+    `;
+  } else {
+    $("lb").innerHTML = `
+      <div style="text-align:center; padding:12px; font-weight:800; color:var(--ac); background:rgba(0,230,118,0.08); border-radius:12px;">
+        ⏳ Esperando que el anfitrión inicie el torneo...
+      </div>
+    `;
+  }
+}
+
+function startOnlineDraftAll() {
+  if(DB&&CODE)DB.doc("rooms/"+CODE).update({status:"draft"}).catch(()=>{});
+  newGame();
+}
+
+function setDifficulty(d) {
+  DIFFICULTY = d;
+  $("mode-classic-btn").classList.toggle("on", d === "classic");
+  $("mode-almanac-btn").classList.toggle("on", d === "almanac");
+  
+  $("cfg-dif-classic").classList.toggle("on", d === "classic");
+  $("cfg-dif-classic").querySelector("span").textContent = d === "classic" ? "✓" : "";
+  
+  $("cfg-dif-almanac").classList.toggle("on", d === "almanac");
+  $("cfg-dif-almanac").querySelector("span").textContent = d === "almanac" ? "✓" : "";
+  
+  $("mode-tag").textContent = d === "classic" ? "MODO CLÁSICO" : "MODO ALMANAQUE";
+}
+
+function theme(t) {
+  document.documentElement.dataset.theme = t;
+  document.querySelectorAll("#cfg .opt[data-t]").forEach(b => {
+    const isCur = b.dataset.t === t;
+    b.classList.toggle("on", isCur);
+    b.querySelector("span").textContent = isCur ? "✓" : "";
+  });
+  try { localStorage.setItem("th7", t); } catch(e){}
+}
+try { theme(localStorage.getItem("th7") || "dark"); } catch(e) { theme("dark"); }
+
+function slotsOf(f) {
+  const [d, m, a] = f.split("-").map(Number);
+  const o = [{ k: "POR", x: 50, y: 86 }];
+  const row = (n, ks, y) => {
+    for (let i = 0; i < n; i++) o.push({ k: ks[i], x: (i + 1) * 100 / (n + 1), y });
+  };
+  row(d, Array(d).fill("DEF"), 66);
+  row(m, Array(m).fill("MED"), 44);
+  row(a, a === 1 ? ["DEL"] : a === 2 ? ["EXT", "EXT"] : ["EXT", "DEL", "EXT"], 20);
+  return o;
+}
+
+const eff = (p, k) => G[p[1]] === k ? p[2] : p[2] - PEN;
+
+function toSetup(m) {
+  MODE = m;
+  $("sn").classList.toggle("hide", m === "solo");
+  show("setup");
+}
+
+function setupGo() {
+  ME.name = $("in_n").value.trim() || "Jugador";
+  ME.club = $("in_c").value.trim() || "Mi Club FC";
+  
+  if (MODE === "online_create") {
+    CODE = Math.random().toString(36).substring(2, 7).toUpperCase();
+    setDifficulty(ROOM_DIFFICULTY);
+    $("lc").textContent = CODE;
+    $("lobby-sub").textContent = `Cuadro de ${ROOM_SIZE} participantes · ${ROOM_DIFFICULTY === 'classic' ? 'Modo Clásico' : 'De Almanaque'}`;
+    $("lh").textContent = `Lugares vacíos se completarán automáticamente con BOTS (BOT 1, BOT 2...).`;
+    $("lp").innerHTML = `<div class="fx"><span><b>${ME.club}</b> (${ME.name})</span><span style="color:var(--ac);">Anfitrión (Listo)</span></div>`;
+    $("lb").innerHTML = `<button class="big" onclick="newGame()">INICIAR TORNEO MULTIJUGADOR</button>`;
+    show("lobby");
+  } else {
+    newGame();
+  }
+}
+
+function newGame() {
+  fm = "3-2-1";
+  SKIPS = 3;
+  resetGame();
+  show("game");
+}
+
+function resetGame() {
+  SL = slotsOf(fm);
+  team = [];
+  used = [];
+  round = 0;
+  sel = null;
+  busy = false;
+  currentPickCategory = null;
+  
+  $("btn-skip").classList.add("hide");
+  $("skip-count").textContent = SKIPS;
+  $("cat").className = "cat";
+  $("cat").textContent = "¿Listo para la ruleta?";
+  $("hint").textContent = "Presiona 'Sortea Categoría' para comenzar.";
+  $("body").innerHTML = '<button class="big" id="go">SORTEAR CATEGORÍA</button>';
+  $("go").onclick = spin;
+  
+  $("fms").innerHTML = "";
+  FM.forEach(f => {
+    const b = document.createElement("button");
+    b.className = "fm" + (f === fm ? " on" : "");
+    b.textContent = f;
+    b.onclick = () => { fm = f; resetGame(); };
+    $("fms").appendChild(b);
+  });
+  draw();
+}
+
+function draw() {
+  $("pitch").querySelectorAll(".slot").forEach(e => e.remove());
+  let tot = 0;
+  
+  SL.forEach((s, i) => {
+    const b = document.createElement("div");
+    b.className = "slot";
+    const p = team[i];
+    b.style.left = s.x + "%";
+    b.style.top = s.y + "%";
+    
+    if (p) {
+      const e = eff(p, s.k);
+      tot += e;
+      b.classList.add("full");
+      const valText = DIFFICULTY === "classic" ? e : "?";
+      b.innerHTML = `<span class="p-name">${p[0]}</span><span class="v">${valText}</span><small style="font-size:9px; opacity:0.8;">${p[1]}</small>`;
+    } else {
+      b.innerHTML = `<small style="font-weight:700;">${NM[s.k]}</small>`;
+      if (sel) {
+        const ev = eff(sel, s.k);
+        const valIndicator = DIFFICULTY === "classic" ? ev : "✓";
+        b.innerHTML += `<small style="color:${ev < sel[2] ? "var(--danger)" : "var(--ac)"}; font-weight:800;">${valIndicator}</small>`;
+        b.classList.add("on");
+        b.onclick = () => place(i);
+      }
+    }
+    $("pitch").appendChild(b);
+  });
+  
+  $("rn").textContent = `Ronda ${Math.min(round, 7)}/7`;
+  $("sum").textContent = DIFFICULTY === "classic" ? `Valor Total: ${tot}` : `Valor Total: ???`;
+}
+
+function spin() {
+  if (busy) return;
+  busy = true;
+  sel = null;
+  $("btn-skip").classList.add("hide");
+  document.querySelectorAll(".fm").forEach(b => b.disabled = true);
+  
+  const left = C.map((c, i) => i).filter(i => !used.includes(i));
+  const pick = left[R(left.length)];
+  currentPickCategory = pick;
+  
+  $("body").innerHTML = "";
+  $("hint").textContent = "Girando ruleta de streamers...";
+  
+  const el = $("cat");
+  el.className = "cat spin";
+  const t0 = Date.now();
+  
+  const iv = setInterval(() => {
+    el.textContent = C[R(C.length)][0];
+    if (Date.now() - t0 >= 1500) {
+      clearInterval(iv);
+      land(pick);
+    }
+  }, 75);
+}
+
+function skipCategory() {
+  if (SKIPS <= 0 || busy) return;
+  SKIPS--;
+  $("skip-count").textContent = SKIPS;
+  
+  // Liberar la categoría usada sin avanzar ronda de jugador colocado
+  if (currentPickCategory !== null) {
+    const idx = used.indexOf(currentPickCategory);
+    if (idx >= 0) used.splice(idx, 1);
+  }
+  round--;
+  spin();
+}
+
+function land(i) {
+  used.push(i);
+  round++;
+  busy = false;
+  
+  $("cat").className = "cat";
+  $("cat").textContent = C[i][0];
+  $("hint").textContent = "Selecciona un streamer y luego toca la casilla táctica en el campo.";
+  
+  if (SKIPS > 0) $("btn-skip").classList.remove("hide");
+  
+  const inTeam = team.filter(Boolean).map(p => p[0]);
+  $("body").innerHTML = "";
+  
+  C[i][1].forEach(p => {
+    const b = document.createElement("button");
+    b.className = "pl";
+    const valText = DIFFICULTY === "classic" ? p[2] : "???";
+    b.innerHTML = `<span class="n">${p[0]}</span><span class="pos">${p[1]}</span><span class="val">${valText}</span>`;
+    if (inTeam.includes(p[0])) b.disabled = true;
+    b.onclick = () => {
+      sel = p;
+      [...$("body").children].forEach(x => x.classList.remove("sel"));
+      b.classList.add("sel");
+      draw();
+    };
+    $("body").appendChild(b);
+  });
+  draw();
+}
+
+function place(i) {
+  if (!sel || team[i]) return;
+  team[i] = sel;
+  sel = null;
+  $("body").innerHTML = "";
+  $("hint").textContent = "";
+  $("btn-skip").classList.add("hide");
+  
+  if (team.filter(Boolean).length === SL.length) return doneDraft();
+  
+  $("body").innerHTML = '<button class="big" id="go">SIGUIENTE CATEGORÍA</button>';
+  $("go").onclick = spin;
+  draw();
+}
+
+function doneDraft() {
+  const pl = SL.map((s, i) => ({ n: team[i][0], pos: team[i][1], e: eff(team[i], s.k), isOutOfPos: G[team[i][1]] !== s.k }));
+  myCompiledTeam = mkTeam(ME.club, pl);
+  draw();
+  
+  // Mostrar Informe Ficha del Entrenador
+  showCoachReport(myCompiledTeam, pl);
+}
+
+function showCoachReport(t, pl) {
+  $("coach-club-name").textContent = t.name;
+  $("stat-avg").textContent = t.avg.toFixed(1);
+  
+  const defs = pl.slice(0, 3);
+  const atks = pl.slice(3);
+  const defAvg = (defs.reduce((a,b)=>a+b.e,0)/defs.length).toFixed(1);
+  const atkAvg = (atks.reduce((a,b)=>a+b.e,0)/atks.length).toFixed(1);
+  
+  $("stat-def").textContent = defAvg;
+  $("stat-atk").textContent = atkAvg;
+  
+  const outOfPosCount = pl.filter(p => p.isOutOfPos).length;
+  let summary = `<p>• <b>Jugadores fuera de puesto:</b> ${outOfPosCount} (-${outOfPosCount * PEN} pts en total).</p>`;
+  if (outOfPosCount === 0) summary += `<p>• ¡Excelente química táctica! Todos los streamers están en su rol ideal.</p>`;
+  else summary += `<p>• Atención: Tu equipo tiene improvisación táctica en algunas líneas.</p>`;
+  
+  $("coach-details").innerHTML = summary;
+  show("coach-report");
+}
+
+function startTournamentAfterReport() {
+  startTournament(myCompiledTeam);
+}
+
+function mkTeam(name, pl) {
+  const e = pl.map(x => x.e);
+  return { name, pl, avg: e.reduce((a, b) => a + b, 0) / e.length };
+}
+
+function mkBot(name) {
+  const cs = shuf(C.map((c, i) => i)).slice(0, 7);
+  const ps = [];
+  cs.forEach(c => {
+    let p = C[c][1][R(C[c][1].length)];
+    ps.push(p);
+  });
+  const sl = slotsOf(FM[R(FM.length)]);
+  let pool = shuf(ps);
+  const pl = sl.map(s => {
+    let j = pool.findIndex(p => G[p[1]] === s.k);
+    if (j < 0) j = 0;
+    const p = pool.splice(j, 1)[0] || ["Streamer", "MC", 75];
+    return { n: p[0], pos: p[1], e: eff(p, s.k) };
+  });
+  return mkTeam(name, pl);
+}
+
+function simMatch(a, b) {
+  const diff = a.avg - b.avg;
+  const pa = Math.min(0.8, Math.max(0.2, 0.5 + (diff * 0.03)));
+  let ga = 0, gb = 0;
+  const ev = [];
+  
+  for (let m = 12; m <= 90; m += 13) {
+    if (Math.random() < 0.55) {
+      const atk = Math.random() < pa ? a : b;
+      const defn = atk === a ? b : a;
+      const who = atk.pl[R(atk.pl.length)].n;
+      
+      if (Math.random() < 0.4) {
+        atk === a ? ga++ : gb++;
+        ev.push({ m, t: `⚽ ¡GOL de ${who}! (${atk.name})` });
+      } else if (Math.random() < 0.5) {
+        ev.push({ m, t: `🧤 ${defn.pl[0].n} ataja el disparo de ${who}` });
+      } else {
+        ev.push({ m, t: `💨 ${who} remata desviado por arriba` });
+      }
+    }
+  }
+  let p = null;
+  let w = ga > gb ? a : (gb > ga ? b : null);
+  if (!w) {
+    let paCount = 3 + R(2), pbCount = 3 + R(2);
+    if (paCount === pbCount) paCount++;
+    p = { a: paCount, b: pbCount };
+    w = paCount > pbCount ? a : b;
+  }
+  return { a, b, ga, gb, p, w, ev };
+}
+
+function startTournament(me) {
+  show("tour");
+  if (liveInterval) clearInterval(liveInterval);
+  
+  $("bracket-container").classList.add("hide");
+  const numTeams = MODE === "online_create" ? ROOM_SIZE : 8;
+  
+  // Generación de oponentes estilo 7a0 Original (BOT 1, BOT 2, etc.)
+  const botTeams = [];
+  for (let i = 1; i < numTeams; i++) {
+    botTeams.push(mkBot(`BOT ${i}`));
+  }
+  
+  const teams = [me, ...botTeams];
+  
+  tourRounds = [];
+  let currentRoundTeams = teams;
+  
+  const fullRoundNames = ["Dieciseisavos", "Octavos de Final", "Cuartos de Final", "Semifinales", "Gran Final"];
+  const roundNames = fullRoundNames.slice(fullRoundNames.length - Math.log2(numTeams));
+  
+  let rIdx = 0;
+  while (currentRoundTeams.length > 1) {
+    const nextRoundTeams = [];
+    const matches = [];
+    for (let i = 0; i < currentRoundTeams.length; i += 2) {
+      const m = simMatch(currentRoundTeams[i], currentRoundTeams[i+1]);
+      matches.push(m);
+      nextRoundTeams.push(m.w);
+    }
+    tourRounds.push({ name: roundNames[rIdx] || `Ronda ${rIdx+1}`, matches });
+    currentRoundTeams = nextRoundTeams;
+    rIdx++;
+  }
+  
+  renderBracketTree();
+  playRoundSequential(0, me);
+}
+
+function playRoundSequential(roundIndex, meTeam) {
+  if (roundIndex >= tourRounds.length) {
+    finishTournament(true);
+    return;
+  }
+
+  const currentRound = tourRounds[roundIndex];
+  const userMatch = currentRound.matches.find(m => m.a.name === meTeam.name || m.b.name === meTeam.name);
+  
+  if (!userMatch) {
+    // Si el usuario ya no compite, mostramos el torneo finalizado
+    finishTournament(false);
+    return;
+  }
+
+  $("rt").textContent = `🏆 ${currentRound.name}`;
+  $("tb").innerHTML = "";
+
+  const durationMs = 90000; // 90 segundos por partido
+  const startTime = Date.now();
+
+  liveInterval = setInterval(() => {
+    const elapsed = Date.now() - startTime;
+    const progress = Math.min(1, elapsed / durationMs);
+    const simMinute = Math.floor(progress * 90);
+
+    let ga = 0, gb = 0;
+    let logHtml = `<div><b>0'</b> 🏁 Comienza el partido de ${currentRound.name}</div>`;
+
+    userMatch.ev.forEach(e => {
+      if (e.m <= simMinute) {
+        logHtml += `<div><b>${e.m}'</b> ${e.t}</div>`;
+        if (e.t.includes("⚽")) {
+          if (e.t.includes(userMatch.a.name)) ga++;
+          else gb++;
+        }
+      }
+    });
+
+    $("sc").textContent = `${userMatch.a.name} ${ga} - ${gb} ${userMatch.b.name}`;
+    $("log").innerHTML = logHtml;
+
+    if (progress >= 1) {
+      clearInterval(liveInterval);
+      if (userMatch.p) {
+        logHtml += `<div style="color:var(--gold)">🎯 Penales: ${userMatch.a.name} ${userMatch.p.a} - ${userMatch.p.b} ${userMatch.b.name}</div>`;
+      }
+      
+      const isWinner = userMatch.w.name === meTeam.name;
+      if (isWinner) {
+        logHtml += `<div style="color:var(--ac); font-weight:800;">✅ ¡VICTORIA! Avanzas a la siguiente ronda.</div>`;
+        $("log").innerHTML = logHtml;
+        $("tb").innerHTML = `<button class="big" onclick="playRoundSequential(${roundIndex + 1}, myCompiledTeam)">SIGUIENTE RONDA ⏩</button>`;
+      } else {
+        logHtml += `<div style="color:var(--danger); font-weight:800;">💔 ELIMINADO. Tu camino en el torneo ha finalizado.</div>`;
+        $("log").innerHTML = logHtml;
+        finishTournament(false);
+      }
+    }
+  }, 500);
+}
+
+function finishTournament(isChampion) {
+  if (isChampion) {
+    $("rt").textContent = "🏆 ¡CAMPEÓN DEL TORNEO!";
+  } else {
+    $("rt").textContent = "📊 Resumen del Torneo";
+  }
+  
+  $("tb").innerHTML = `
+    <button class="big sec" style="margin-bottom:8px;" onclick="toggleBracketView()">👁️ VER CUADRO COMPLETO</button>
+    <button class="big" onclick="leave()">VOLVER AL MENÚ PRINCIPAL</button>
+  `;
+}
+
+function toggleBracketView() {
+  const container = $("bracket-container");
+  container.classList.toggle("hide");
+}
+
+function renderBracketTree() {
+  const container = $("bracket-tree");
+  container.innerHTML = "";
+  
+  tourRounds.forEach((rd, rIdx) => {
+    const col = document.createElement("div");
+    col.className = "bracket-round";
+    col.innerHTML = `<div class="bracket-round-title">${rd.name}</div>`;
+    
+    rd.matches.forEach((m, mIdx) => {
+      const card = document.createElement("div");
+      card.className = "match-card" + (m.a.name === ME.club || m.b.name === ME.club ? " is-me" : "");
+      card.onclick = () => openMatchModal(rIdx, mIdx);
+      
+      const scoreA = m.p ? `${m.ga} (${m.p.a})` : m.ga;
+      const scoreB = m.p ? `${m.gb} (${m.p.b})` : m.gb;
+      
+      card.innerHTML = `
+        <div class="match-team ${m.w === m.a ? 'winner' : ''}">
+          <span>${m.a.name}</span> <span class="score-num">${scoreA}</span>
+        </div>
+        <div class="match-team ${m.w === m.b ? 'winner' : ''}">
+          <span>${m.b.name}</span> <span class="score-num">${scoreB}</span>
+        </div>
+      `;
+      col.appendChild(card);
+    });
+    container.appendChild(col);
+  });
+}
+
+function openMatchModal(rIdx, mIdx) {
+  const m = tourRounds[rIdx].matches[mIdx];
+  $("modal-title").textContent = tourRounds[rIdx].name;
+  $("modal-score").textContent = `${m.a.name} ${m.ga} - ${m.gb} ${m.b.name}`;
+  
+  let h = "";
+  m.ev.forEach(e => h += `<div><b>${e.m}'</b> ${e.t}</div>`);
+  if (m.p) h += `<div style="color:var(--gold); font-weight:800; margin-top:8px;">🎯 Penales: ${m.a.name} ${m.p.a} - ${m.p.b} ${m.b.name}</div>`;
+  $("modal-log").innerHTML = h || "<div>Partido cerrado de táxica defensiva sin situaciones destacadas.</div>";
+  
+  $("modal-match").classList.remove("hide");
+}
+
+function closeMatchModal() {
+  $("modal-match").classList.add("hide");
+}
+
+function leave() {
+  if (liveInterval) clearInterval(liveInterval);
+  clearInterval(LHB);LUNS.forEach(f=>f());LUNS=[];
+  if(DB&&CODE&&MODE.indexOf("online")===0)DB.doc(PPATH()).delete().catch(()=>{});
+  show("menu");
+}
+
+function copyLink() {
+  const dummy = document.createElement("input");
+  document.body.appendChild(dummy);
+  dummy.value = CODE;
+  dummy.select();
+  document.execCommand("copy");
+  document.body.removeChild(dummy);
+  alert("Código de sala copiado: " + CODE);
+}
+</script>
+</body>
+</html>
