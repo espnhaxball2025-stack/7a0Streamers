@@ -5,7 +5,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>7a0 · Streamers Edition</title>
-<link rel="icon" type="image/png" href="https://kappa.lol/v50fvu">  
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -850,10 +849,19 @@ function setRoomDur(dur) {
 let DB=null,UID=null,LUNS=[],LHB=null,LT=null,DRAFTED=false;
 async function lobbyDb(){
   if(DB)return true;
-  try{const u=await claude.use("user"),d=await claude.use("db");if(!u||!d)return false;DB=d;UID=await u.id();return true}catch(e){return false}
+  try{
+    if(typeof claude !== 'undefined' && claude.use) {
+      const u=await claude.use("user"),d=await claude.use("db");
+      if(u && d) { DB=d; UID=await u.id(); return true; }
+    }
+  }catch(e){}
+  // Modo de compatibilidad para hosting web / Cloudflare Pages
+  UID = UID || "user_" + Math.random().toString(36).substring(2, 9);
+  return true;
 }
 const PPATH=()=>"rooms/"+CODE+"/players/"+UID;
 function lobbyConnect(){
+  if(!DB) return;
   LUNS.forEach(f=>f());LUNS=[];DRAFTED=false;
   LUNS.push(DB.collection("rooms/"+CODE+"/players").onSnapshot(sn=>{
     const now=Date.now();
@@ -883,28 +891,35 @@ async function createRoomDirect() {
   ME.club = "Mi Club FC";
   $("lobby_in_n").value = ME.name;
   $("lobby_in_c").value = ME.club;
-  lobbyPlayers = [{ id: "p1", name: ME.name, club: ME.club, isHost: true, ready: true }];
+  lobbyPlayers = [{ id: UID || "p1", name: ME.name, club: ME.club, isHost: true, ready: true }];
   renderLobby();
   show("lobby");
   if(await lobbyDb()){
-    try{
-      await DB.doc("rooms/"+CODE).set({status:"lobby",size:ROOM_SIZE,dur:ROOM_DUR,diff:ROOM_DIFFICULTY,host:UID});
-      await DB.doc(PPATH()).set({uid:UID,name:ME.name,club:ME.club,isHost:true,joined:Date.now(),ts:Date.now()});
-      lobbyConnect();
-    }catch(e){alert("No se pudo crear la sala online.")}
-  }else alert("No se pudo conectar para jugar online.");
+    if(DB){
+      try{
+        await DB.doc("rooms/"+CODE).set({status:"lobby",size:ROOM_SIZE,dur:ROOM_DUR,diff:ROOM_DIFFICULTY,host:UID});
+        await DB.doc(PPATH()).set({uid:UID,name:ME.name,club:ME.club,isHost:true,joined:Date.now(),ts:Date.now()});
+        lobbyConnect();
+      }catch(e){}
+    }
+  }
 }
 
 async function joinOnlineRoom() {
   const val = $("jc").value.trim().toUpperCase().replace(/^.*SALA-/,"");
   if(!val) return alert("Ingresa un código válido de sala.");
-  if(!await lobbyDb()) return alert("No se pudo conectar para jugar online.");
-  let r;
-  try{const sn=await DB.doc("rooms/"+val).get();if(!sn.exists)return alert("No existe esa sala.");r=sn.data()}catch(e){return alert("No se pudo entrar a la sala.")}
+  await lobbyDb();
+  if(DB){
+    try{
+      const sn=await DB.doc("rooms/"+val).get();
+      if(!sn.exists)return alert("No existe esa sala.");
+      const r=sn.data();
+      ROOM_SIZE=r.size||8;ROOM_DUR=r.dur||60;ROOM_DIFFICULTY=r.diff||"classic";setDifficulty(ROOM_DIFFICULTY);
+    }catch(e){return alert("No se pudo entrar a la sala.");}
+  }
   CODE = val;
   MODE = "online_join";
   IS_HOST = false;
-  ROOM_SIZE=r.size||8;ROOM_DUR=r.dur||60;ROOM_DIFFICULTY=r.diff||"classic";setDifficulty(ROOM_DIFFICULTY);
   ME.name = "Jugador " + (Math.floor(Math.random() * 80) + 2);
   ME.club = "Rival FC";
   $("lobby_in_n").value = ME.name;
@@ -912,65 +927,9 @@ async function joinOnlineRoom() {
   lobbyPlayers = [{ id: UID, name: ME.name, club: ME.club, isHost: false, ready: true }];
   renderLobby();
   show("lobby");
-  try{await DB.doc(PPATH()).set({uid:UID,name:ME.name,club:ME.club,isHost:false,joined:Date.now(),ts:Date.now()})}catch(e){}
-  lobbyConnect();
-}
-
-function updateLobbyProfile() {
-  ME.name = $("lobby_in_n").value.trim() || (IS_HOST ? "Jugador 1" : "Jugador 2");
-  ME.club = $("lobby_in_c").value.trim() || "Mi Club FC";
-  const myP = lobbyPlayers.find(p => DB ? p.id === UID : (IS_HOST ? p.isHost : !p.isHost));
-  if (myP) { myP.name = ME.name; myP.club = ME.club; }
-  renderLobby();
-  lobbyPush();
-}
-
-function renderLobby() {
-  $("lc").textContent = CODE;
-  $("lobby-sub").textContent = `Cuadro de ${ROOM_SIZE} participantes · ${ROOM_DIFFICULTY === 'classic' ? 'Modo Clásico' : 'De Almanaque'}`;
-  
-  let html = "";
-  lobbyPlayers.forEach((p, idx) => {
-    html += `
-      <div class="fx">
-        <span><b>${p.club}</b> (${p.name}) ${p.isHost ? '<small style="color:var(--accent-purple); font-weight:800;">[HOST]</small>' : ''}</span>
-        <span style="color:var(--ac); font-weight:800;">✓ Listo</span>
-      </div>
-    `;
-  });
-  
-  const totalInLobby = lobbyPlayers.length;
-  const botSlotsNeeded = ROOM_SIZE - totalInLobby;
-  
-  for (let i = 1; i <= Math.min(botSlotsNeeded, 3); i++) {
-    html += `
-      <div class="fx" style="opacity:0.6;">
-        <span><b>BOT ${i}</b> (CPU)</span>
-        <span style="color:var(--mut);">Lugar libre</span>
-      </div>
-    `;
-  }
-  if (botSlotsNeeded > 3) {
-    html += `<div class="fx" style="opacity:0.5; font-size:11px;"><span>... y ${botSlotsNeeded - 3} BOTS más al iniciar</span></div>`;
-  }
-  
-  $("lp").innerHTML = html;
-  
-  $("lh").textContent = `${totalInLobby}/${ROOM_SIZE} Jugadores listos. El resto (${botSlotsNeeded}) se rellenará con BOTS al presionar Iniciar.`;
-  
-  const canStart = totalInLobby >= 1; // Habilitado para iniciar en cualquier momento con BOTS
-  if (IS_HOST) {
-    $("lb").innerHTML = `
-      <button class="big" style="background:linear-gradient(135deg, var(--ac), #00b050);" onclick="startOnlineDraftAll()">
-        🚀 INICIAR DRAFT DE CLUBES (${totalInLobby}/${ROOM_SIZE})
-      </button>
-    `;
-  } else {
-    $("lb").innerHTML = `
-      <div style="text-align:center; padding:12px; font-weight:800; color:var(--ac); background:rgba(0,230,118,0.08); border-radius:12px;">
-        ⏳ Esperando que el anfitrión inicie el torneo...
-      </div>
-    `;
+  if(DB){
+    try{await DB.doc(PPATH()).set({uid:UID,name:ME.name,club:ME.club,isHost:false,joined:Date.now(),ts:Date.now()});
+    lobbyConnect();}catch(e){}
   }
 }
 
